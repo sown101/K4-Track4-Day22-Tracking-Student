@@ -23,8 +23,22 @@ Cách thử: mỗi video chạy ByteTrack và BoT-SORT ở conf=0.30, iou=0.50 (
 Dán bảng HOTA / MOTA / IDF1 do `scripts/evaluate_practice.py` in ra.
 
 ```
-(dán output ở đây)
+HOTA: nhom01_video1-pedestrian     HOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+video_1                            26.025    15.289    44.336    15.52     82.273    46.471    83.956    84.414    26.227    31.567    81.153    25.617
+
+CLEAR: nhom01_video1-pedestrian    MOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag
+video_1                            17.389    82.485    17.539    18.201    96.491    11.29     16.129    72.581    14.201    3382      15199     123       28        7         10        45        80
+
+Identity: nhom01_video1-pedestrian IDF1      IDR       IDP       IDTP      IDFN      IDFP
+video_1                            25.464    15.134    80.228    2812      15769     693
+
+Count: nhom01_video1-pedestrian    Dets      GT_Dets   IDs       GT_IDs
+video_1                            3505      18581     44        62
 ```
+
+Tóm tắt: **HOTA 26.0 · MOTA 17.4 · IDF1 25.5** (bytetrack, conf=0.30, iou=0.50). Độ chính xác cao (CLR_Pr 96.5%, chỉ 123 hộp giả, 28 lần đổi ID) nhưng độ phủ thấp (CLR_Re 18.2%, 15199 lượt bỏ sót; 45/62 người gần như không được theo). Điểm thấp chủ yếu do detector nano ở 640 px bỏ sót nhiều người nhỏ phía xa, không phải do tracker đổi ID.
+
+Ghi chú: gói `data_lab21.zip` không kèm `video_1/eval_config.json`, nên nhóm tự tạo file này với `{"benchmark": "LAB21", "split": "train"}`. Trong TrackEval, tên benchmark chỉ đổi cách chấm khi là `MOT15` (tắt tiền xử lý) hoặc `MOT20` (thêm lớp xe làm distractor; nhãn video_1 không có lớp này). Nhóm đã chạy thử ba tên khác nhau và nhận cùng một kết quả.
 
 `video_2` đến `video_5` không có nhãn trong gói lab. Không điền số cho các video đó.
 
